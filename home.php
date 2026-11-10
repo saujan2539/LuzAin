@@ -68,12 +68,23 @@ $total_bookmarked = $select_bookmark->rowCount();
       ?>
       <div class="box">
          <h3 class="title">likes and comments</h3>
-         <p>total likes : <span><?= $total_likes; ?></span></p>
-         <a href="likes.php" class="inline-btn">view likes</a>
-         <p>total comments : <span><?= $total_comments; ?></span></p>
-         <a href="comments.php" class="inline-btn">view comments</a>
-         <p>saved playlist : <span><?= $total_bookmarked; ?></span></p>
-         <a href="bookmark.php" class="inline-btn">view bookmark</a>
+         <div class="ig-actions">
+            <a href="likes.php" class="ig-action">
+               <i class="fas fa-heart"></i>
+               <span class="ig-count"><?= $total_likes; ?></span>
+               <span class="ig-label">likes</span>
+            </a>
+            <a href="comments.php" class="ig-action">
+               <i class="fas fa-comment"></i>
+               <span class="ig-count"><?= $total_comments; ?></span>
+               <span class="ig-label">comments</span>
+            </a>
+            <a href="bookmark.php" class="ig-action">
+               <i class="fas fa-bookmark"></i>
+               <span class="ig-count"><?= $total_bookmarked; ?></span>
+               <span class="ig-label">saved</span>
+            </a>
+         </div>
       </div>
       <?php
          }else{ 
@@ -140,21 +151,31 @@ $total_bookmarked = $select_bookmark->rowCount();
                $course_id = $fetch_course['id'];
 
                $select_tutor = $conn->prepare("SELECT * FROM `tutors` WHERE id = ?");
-               $select_tutor->execute([$fetch_course['tutor_id']]);
-               $fetch_tutor = $select_tutor->fetch(PDO::FETCH_ASSOC);
-      ?>
-      <div class="box">
-         <div class="tutor">
-            <img src="uploaded_files/<?= $fetch_tutor['image']; ?>" alt="">
-            <div>
-               <h3><?= $fetch_tutor['name']; ?></h3>
-               <span><?= $fetch_course['date']; ?></span>
-            </div>
-         </div>
-         <img src="uploaded_files/<?= $fetch_course['thumb']; ?>" class="thumb" alt="">
-         <h3 class="title"><?= $fetch_course['title']; ?></h3>
-         <a href="playlist.php?get_id=<?= $course_id; ?>" class="inline-btn">view playlist</a>
-      </div>
+                              $select_tutor->execute([$fetch_course['tutor_id']]);
+                              $fetch_tutor = $select_tutor->fetch(PDO::FETCH_ASSOC);
+
+                              $count_videos = $conn->prepare("SELECT * FROM `content` WHERE playlist_id = ? AND status = ?");
+                              $count_videos->execute([$course_id, 'active']);
+                              $total_videos = $count_videos->rowCount();
+                     ?>
+                     <div class="box">
+                        <a href="playlist.php?get_id=<?= $course_id; ?>" class="box-tutor-link">
+                           <div class="tutor">
+                              <img src="uploaded_files/<?= $fetch_tutor['image']; ?>" alt="">
+                              <div>
+                                 <h3><?= $fetch_tutor['name']; ?></h3>
+                                 <span><?= $fetch_course['date']; ?></span>
+                              </div>
+                           </div>
+                        </a>
+                        <a href="playlist.php?get_id=<?= $course_id; ?>" class="yt-thumb-wrap">
+                           <img src="uploaded_files/<?= $fetch_course['thumb']; ?>" class="thumb" alt="">
+                           <?php if($total_videos > 0): ?><span class="yt-vids"><?= $total_videos; ?> videos</span><?php endif; ?>
+                           <span class="yt-play"><i class="fas fa-play"></i></span>
+                        </a>
+                        <h3 class="title"><?= $fetch_course['title']; ?></h3>
+                        <a href="playlist.php?get_id=<?= $course_id; ?>" class="inline-btn">view playlist</a>
+                     </div>
       <?php
          }
       }else{

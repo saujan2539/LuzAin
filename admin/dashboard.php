@@ -52,7 +52,28 @@ $total_comments = $select_comments->rowCount();
 
    <div class="welcome-box">
       <h3 class="welcome-title">Welcome, <?= $fetch_profile['name']; ?> 👋</h3>
-      <p class="welcome-stats"><b><?= $total_contents; ?></b> contents &nbsp;·&nbsp; <b><?= $total_playlists; ?></b> playlists &nbsp;·&nbsp; <b><?= $total_likes; ?></b> likes &nbsp;·&nbsp; <b><?= $total_comments; ?></b> comments</p>
+      <div class="ig-actions">
+         <div class="ig-action">
+            <i class="fas fa-folder-open"></i>
+            <span class="ig-count"><?= $total_contents; ?></span>
+            <span class="ig-label">contents</span>
+         </div>
+         <div class="ig-action">
+            <i class="fas fa-list"></i>
+            <span class="ig-count"><?= $total_playlists; ?></span>
+            <span class="ig-label">playlists</span>
+         </div>
+         <div class="ig-action">
+            <i class="fas fa-heart"></i>
+            <span class="ig-count"><?= $total_likes; ?></span>
+            <span class="ig-label">likes</span>
+         </div>
+         <div class="ig-action">
+            <i class="fas fa-comment"></i>
+            <span class="ig-count"><?= $total_comments; ?></span>
+            <span class="ig-label">comments</span>
+         </div>
+      </div>
    </div>
 
 </section>

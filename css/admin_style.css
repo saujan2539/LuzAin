@@ -150,7 +150,8 @@ section{
 .toast{
    position: fixed;
    top: 1.2rem;
-   right: 1.2rem;
+   left: 50%;
+   transform: translateX(-50%);
    z-index: 3000;
    display: flex;
    align-items: center;
@@ -176,6 +177,27 @@ section{
    color: #1f2937;
 }
 
+/* --- legacy .message alert: centered at top like the toast --- */
+.message{
+   position: fixed;
+   top: 1.2rem;
+   left: 50%;
+   transform: translateX(-50%);
+   z-index: 3000;
+   max-width: 40rem;
+   padding: 1.4rem 1.8rem;
+   border-radius: 1.2rem;
+   color: #fff;
+   font-size: 1.6rem;
+   font-weight: 600;
+   box-shadow: 0 10px 30px rgba(0,0,0,.25);
+   animation: toast-in .45s cubic-bezier(.22,1,.36,1) forwards;
+   background: linear-gradient(135deg,#ef4444,#dc2626);
+}
+.message.form{
+   margin: 0 auto;
+}
+
 .toast i:first-child{
    font-size: 2.2rem;
    color:inherit;
@@ -199,11 +221,11 @@ section{
 }
 
 @keyframes toast-in{
-   from{ opacity: 0; transform: translateX(3rem) scale(.95); }
-   to{ opacity: 1; transform: translateX(0) scale(1); }
+   from{ opacity: 0; transform: translate(-50%, -1.5rem) scale(.95); }
+   to{ opacity: 1; transform: translate(-50%, 0) scale(1); }
 }
 @keyframes toast-out{
-   to{ opacity: 0; transform: translateX(3rem) scale(.95); }
+   to{ opacity: 0; transform: translate(-50%, -1.5rem) scale(.95); }
 }
 
 .empty{
@@ -1246,6 +1268,57 @@ body.active .menu-overlay{
    color: var(--light-color);
 }
 .welcome-box .welcome-stats b{
+   color: var(--main-color);
+}
+
+/* --- Instagram-style action bar (admin dashboard) --- */
+.ig-actions{
+   display: flex;
+   justify-content: center;
+   align-items: flex-start;
+   gap: 1.5rem;
+   margin-top: 2rem;
+   flex-wrap: wrap;
+}
+.ig-action{
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   gap: .4rem;
+   padding: 1.2rem 1.4rem;
+   border-radius: 1rem;
+   transition: transform .25s ease, background .25s ease, color .25s ease;
+   min-width: 8rem;
+   background: var(--light-bg);
+   border: 1px solid var(--border);
+}
+.ig-action i{
+   font-size: 2.6rem;
+   color: var(--light-color);
+   transition: transform .3s cubic-bezier(.34,1.56,.64,1), color .25s ease;
+}
+.ig-action .ig-count{
+   font-size: 2rem;
+   font-weight: 700;
+   color: var(--black);
+}
+.ig-action .ig-label{
+   font-size: 1.4rem;
+   color: var(--light-color);
+   text-transform: lowercase;
+}
+.ig-action:hover{
+   transform: translateY(-.3rem);
+   box-shadow: var(--shadow);
+}
+.ig-action:hover i{
+   color: #e1306c;
+   transform: scale(1.25);
+}
+.ig-action:active i{
+   transform: scale(.9);
+}
+.ig-action:hover .ig-label{
    color: var(--main-color);
 }
 

@@ -15,7 +15,6 @@ if(isset($_POST['submit'])){
    $select_user->execute([$user_id]);
    $fetch_user = $select_user->fetch(PDO::FETCH_ASSOC);
 
-   $prev_pass = $fetch_user['password'];
    $prev_image = $fetch_user['image'];
 
    $name = $_POST['name'];
@@ -58,33 +57,9 @@ if(isset($_POST['submit'])){
          $update_image->execute([$rename, $user_id]);
          move_uploaded_file($image_tmp_name, $image_folder);
          if($prev_image != '' AND $prev_image != $rename){
-            unlink('uploaded_files/'.$prev_image);
+            @unlink('uploaded_files/'.$prev_image);
          }
          $message[] = 'image updated successfully!';
-      }
-   }
-
-   $empty_pass = 'da39a3ee5e6b4b0d3255bfef95601890afd80709';
-   $old_pass = sha1($_POST['old_pass']);
-   $old_pass = filter_var($old_pass, FILTER_SANITIZE_STRING);
-   $new_pass = sha1($_POST['new_pass']);
-   $new_pass = filter_var($new_pass, FILTER_SANITIZE_STRING);
-   $cpass = sha1($_POST['cpass']);
-   $cpass = filter_var($cpass, FILTER_SANITIZE_STRING);
-
-   if($old_pass != $empty_pass){
-      if($old_pass != $prev_pass){
-         $message[] = 'old password not matched!';
-      }elseif($new_pass != $cpass){
-         $message[] = 'confirm password not matched!';
-      }else{
-         if($new_pass != $empty_pass){
-            $update_pass = $conn->prepare("UPDATE `users` SET password = ? WHERE id = ?");
-            $update_pass->execute([$cpass, $user_id]);
-            $message[] = 'password updated successfully!';
-         }else{
-            $message[] = 'please enter a new password!';
-         }
       }
    }
 
@@ -123,14 +98,6 @@ if(isset($_POST['submit'])){
             <input type="email" name="email" placeholder="<?= $fetch_profile['email']; ?>" maxlength="100" class="box">
             <p>update pic</p>
             <input type="file" name="image" accept="image/*" class="box">
-         </div>
-         <div class="col">
-               <p>old password</p>
-               <input type="password" name="old_pass" placeholder="enter your old password" maxlength="50" class="box">
-               <p>new password</p>
-               <input type="password" name="new_pass" placeholder="enter your new password" maxlength="50" class="box">
-               <p>confirm password</p>
-               <input type="password" name="cpass" placeholder="confirm your new password" maxlength="50" class="box">
          </div>
       </div>
       <input type="submit" name="submit" value="update profile" class="btn">

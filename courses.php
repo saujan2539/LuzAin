@@ -47,16 +47,26 @@ if(isset($_COOKIE['user_id'])){
                $select_tutor = $conn->prepare("SELECT * FROM `tutors` WHERE id = ?");
                $select_tutor->execute([$fetch_course['tutor_id']]);
                $fetch_tutor = $select_tutor->fetch(PDO::FETCH_ASSOC);
+
+               $count_videos = $conn->prepare("SELECT * FROM `content` WHERE playlist_id = ? AND status = ?");
+               $count_videos->execute([$course_id, 'active']);
+               $total_videos = $count_videos->rowCount();
       ?>
       <div class="box">
-         <div class="tutor">
-            <img src="uploaded_files/<?= $fetch_tutor['image']; ?>" alt="">
-            <div>
-               <h3><?= $fetch_tutor['name']; ?></h3>
-               <span><?= $fetch_course['date']; ?></span>
+         <a href="playlist.php?get_id=<?= $course_id; ?>" class="box-tutor-link">
+            <div class="tutor">
+               <img src="uploaded_files/<?= $fetch_tutor['image']; ?>" alt="">
+               <div>
+                  <h3><?= $fetch_tutor['name']; ?></h3>
+                  <span><?= $fetch_course['date']; ?></span>
+               </div>
             </div>
-         </div>
-         <img src="uploaded_files/<?= $fetch_course['thumb']; ?>" class="thumb" alt="">
+         </a>
+         <a href="playlist.php?get_id=<?= $course_id; ?>" class="yt-thumb-wrap">
+            <img src="uploaded_files/<?= $fetch_course['thumb']; ?>" class="thumb" alt="">
+            <?php if($total_videos > 0): ?><span class="yt-vids"><?= $total_videos; ?> videos</span><?php endif; ?>
+            <span class="yt-play"><i class="fas fa-play"></i></span>
+         </a>
          <h3 class="title"><?= $fetch_course['title']; ?></h3>
          <a href="playlist.php?get_id=<?= $course_id; ?>" class="inline-btn">view playlist</a>
       </div>

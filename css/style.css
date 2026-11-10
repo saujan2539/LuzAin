@@ -145,7 +145,8 @@ section{
 .toast{
    position: fixed;
    top: 1.2rem;
-   right: 1.2rem;
+   left: 50%;
+   transform: translateX(-50%);
    z-index: 3000;
    display: flex;
    align-items: center;
@@ -191,11 +192,11 @@ section{
 }
 
 @keyframes toast-in{
-   from{ opacity: 0; transform: translateX(3rem) scale(.95); }
-   to{ opacity: 1; transform: translateX(0) scale(1); }
+   from{ opacity: 0; transform: translate(-50%, -1.5rem) scale(.95); }
+   to{ opacity: 1; transform: translate(-50%, 0) scale(1); }
 }
 @keyframes toast-out{
-   to{ opacity: 0; transform: translateX(3rem) scale(.95); }
+   to{ opacity: 0; transform: translate(-50%, -1.5rem) scale(.95); }
 }
 
 .empty{
@@ -587,6 +588,54 @@ body.active .menu-overlay{
    color: var(--main-color);
 }
 
+/* --- Instagram-style like/comment/bookmark action bar --- */
+.ig-actions{
+   display: flex;
+   justify-content: space-around;
+   align-items: flex-start;
+   gap: 1rem;
+   margin-top: 1.5rem;
+}
+.ig-action{
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   gap: .4rem;
+   padding: 1rem .8rem;
+   border-radius: 1rem;
+   transition: transform .25s ease, background .25s ease, color .25s ease;
+   min-width: 6rem;
+}
+.ig-action i{
+   font-size: 2.6rem;
+   color: var(--light-color);
+   transition: transform .3s cubic-bezier(.34,1.56,.64,1), color .25s ease;
+}
+.ig-action .ig-count{
+   font-size: 1.8rem;
+   font-weight: 700;
+   color: var(--black);
+}
+.ig-action .ig-label{
+   font-size: 1.3rem;
+   color: var(--light-color);
+   text-transform: lowercase;
+}
+.ig-action:hover{
+   background: var(--light-bg);
+   transform: translateY(-.2rem);
+}
+.ig-action:hover i{
+   color: #e1306c;
+   transform: scale(1.25);
+}
+.ig-action:active i{
+   transform: scale(.9);
+}
+.ig-action:hover .ig-label{
+   color: var(--main-color);
+}
+
 .quick-select .box-container .tutor{
    text-align: center;
 }
@@ -651,6 +700,25 @@ body.active .menu-overlay{
    align-items: center;
    gap: 2rem;
 }
+.box-tutor-link{
+   display: block;
+   cursor: pointer;
+   text-decoration: none;
+   color: inherit;
+   margin-bottom: 1.5rem;
+}
+.box-tutor-link .tutor{
+   display: flex;
+   align-items: center;
+   gap: 2rem;
+   margin-bottom: 0;
+}
+.box-tutor-link:hover .tutor h3{
+   color: var(--main-color);
+}
+.box-tutor-link:hover .tutor img{
+   transform: scale(1.08);
+}
 
 .courses .box-container .box .tutor img{
    width: 5rem;
@@ -684,6 +752,62 @@ body.active .menu-overlay{
    color: var(--black);
    margin-top: .5rem;
    padding: .5rem 0;
+}
+
+/* --- YouTube-style playlist card --- */
+.yt-thumb-wrap{
+   display: block;
+   position: relative;
+   border-radius: 1rem;
+   overflow: hidden;
+   cursor: pointer;
+}
+.yt-thumb-wrap .thumb{
+   width: 100%;
+   border-radius: 1rem;
+   aspect-ratio: 16 / 9;
+   object-fit: cover;
+   display: block;
+   transition: transform .4s ease, opacity .3s ease;
+   cursor: pointer;
+}
+.yt-thumb-wrap .yt-vids{
+   position: absolute;
+   right: .8rem;
+   bottom: .8rem;
+   background: rgba(0,0,0,.8);
+   color: #fff;
+   font-size: 1.3rem;
+   font-weight: 600;
+   padding: .45rem 1rem;
+   border-radius: .6rem;
+   letter-spacing: .02em;
+   z-index: 2;
+}
+.yt-thumb-wrap .yt-play{
+   position: absolute;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%,-50%) scale(.85);
+   width: 5.4rem;
+   height: 5.4rem;
+   border-radius: 50%;
+   background: rgba(0,0,0,.55);
+   color: #fff;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   font-size: 2rem;
+   opacity: 0;
+   transition: opacity .3s ease, transform .3s cubic-bezier(.34,1.56,.64,1);
+   z-index: 2;
+}
+.yt-thumb-wrap:hover .thumb{
+   transform: scale(1.05);
+}
+.yt-thumb-wrap:hover .yt-play{
+   opacity: 1;
+   transform: translate(-50%,-50%) scale(1);
 }
 
 .courses .more-btn{

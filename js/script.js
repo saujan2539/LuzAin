@@ -1,18 +1,29 @@
 let body = document.body;
 
 let profile = document.querySelector('.header .flex .profile');
+let searchForm = document.querySelector('.header .flex .search-form');
 
 document.querySelector('#user-btn').onclick = () =>{
    profile.classList.toggle('active');
    searchForm.classList.remove('active');
 }
 
-let searchForm = document.querySelector('.header .flex .search-form');
-
 document.querySelector('#search-btn').onclick = () =>{
    searchForm.classList.toggle('active');
    profile.classList.remove('active');
 }
+
+// Close profile / search when clicking anywhere outside them
+document.addEventListener('click', (e) =>{
+   const isProfileClick = (profile && (profile.contains(e.target) || e.target.closest('#user-btn')));
+   const isSearchClick = (searchForm && (searchForm.contains(e.target) || e.target.closest('#search-btn')));
+   if(!isProfileClick && profile){
+      profile.classList.remove('active');
+   }
+   if(!isSearchClick && searchForm){
+      searchForm.classList.remove('active');
+   }
+});
 
 let sideBar = document.querySelector('.side-bar');
 
